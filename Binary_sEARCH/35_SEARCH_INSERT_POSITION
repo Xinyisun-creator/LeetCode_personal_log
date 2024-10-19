@@ -1,0 +1,35 @@
+class Solution(object):
+    def searchRange(self, nums, target):
+        """
+        :type nums: List[int]
+        :type target: int
+        :rtype: List[int]
+        """
+        left = 0
+        right = len(nums) - 1
+        middle = ( right + left ) // 2
+        answer = [-1,-1]
+        while(left <= right):
+            if nums[middle] == target:
+                answer = self.check(answer,nums, target,middle,left,right)
+                if answer[0] != -1:
+                    break
+            if nums[middle] < target:
+                left = middle + 1
+            else:
+                right = middle - 1
+            middle = ( right + left ) // 2
+        return answer
+
+    def check(self,ans,nums, target,middle,left,right):
+        start = 0
+        for i in range(left,right+1):
+            if nums[i] == target and start == 0:
+                ans[0] = i
+                ans[1] = i
+                start = 1
+            elif nums[i] == target and start == 1:
+                ans[1] = i
+            elif nums[i] != target & i>= middle:
+                return ans
+        return ans
